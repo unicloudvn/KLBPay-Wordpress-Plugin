@@ -2,6 +2,12 @@
 # Tích Hợp KLB Pay cho WooCommerce
 
 Đây là hướng dẫn về cách tích hợp KLB Pay vào WooCommerce thông qua việc tải lên tệp plugin từ file zip.
+## Phiên Bản PHP và WooCommerce
+
+1. Đảm bảo rằng phiên bản PHP của trang web đủ để chạy plugin KLB Pay. Plugin yêu cầu PHP 7.3 trở lên.
+
+2. Plugin KLB Pay nên tương thích với các phiên bản WooCommerce. 
+
 
 ## Cài Đặt
 
