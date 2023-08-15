@@ -6,12 +6,14 @@
 ## Cài Đặt
 
 1. Tải plugin KLB Pay từ [trang chính thức](https://github.com/unicloudvn/KLBPay-Wordpress-Plugin).
+
 ![img-download.png](readImg/img-download.png)
-2. Trong trang quản trị WordPress, điều hướng đến "Plugins" > "Thêm mới".
-3. Chọn "Tải lên plugin" ở góc trên bên phải của trang.
-4. Chọn tệp plugin KLB Pay đã tải xuống.
+
+3. Trong trang quản trị WordPress, điều hướng đến "Plugins" > "Thêm mới".
+4. Chọn "Tải lên plugin" ở góc trên bên phải của trang.
+5. Chọn tệp plugin KLB Pay đã tải xuống.
 ![img-upload.png](readImg/img-upload.png)
-5. Sau khi tải lên thành công, kích hoạt plugin.
+6. Sau khi tải lên thành công, kích hoạt plugin.
 ![img-active.png](readImg/img-active.png)
 ![img-plugin.png](readImg/img-plugin.png)
 
