@@ -1,0 +1,37 @@
+{
+  "name": "unicloudvn/klbpay-php-sdk",
+  "type": "library",
+  "description": "Client library for Kien Long bank pay",
+  "homepage": "https://kienlongbank.com/",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Unicloud Group developers",
+      "homepage": "https://www.unicloud.com.vn/en/"
+    }
+  ],
+  "keywords": [
+    "KienLongPay",
+    "php",
+    "sdk",
+    "rest",
+    "api"
+  ],
+  "autoload": {
+    "psr-4": {
+      "src\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=7.1",
+    "ext-openssl": "*",
+    "guzzlehttp/guzzle": "^7.0",
+    "ext-json": "*",
+    "ext-oauth": "*",
+    "ext-mbstring": "*"
+  },
+  "config": {
+    "allow-plugins": {
+    }
+  }
+}

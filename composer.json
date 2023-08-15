@@ -1,0 +1,5 @@
+{
+    "require": {
+        "unicloudvn/klbpay-php-sdk": "^1.0"
+    }
+}
