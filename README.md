@@ -14,7 +14,7 @@
 ## Cấu Hình
 1. Đăng nhập vào tài khoản KLB Pay của bạn và tạo tài khoản kết nối.
 2. Lấy thông tin khách hàng như Client ID, Encrypt Key, Secret Key và Host.
-3. Vào trang cài đặt của plugin trong trang quản trị WooCommerce->Setting->Payment và điền thông tin đã lấy vào các trường tương ứng.
+3. Vào trang cài đặt của plugin trong trang quản trị WooCommerce -> Setting -> Payment -> KLB Pay và điền thông tin đã lấy vào các trường tương ứng.
 
 ## Sử Dụng
 
