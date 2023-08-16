@@ -116,67 +116,61 @@ function klb_pay_init_gateway_class()
             return apply_filters('woocommerce_gateway_icon', $icon_html, $this->id);
         }
 
-        public function process_payment($order_id)
+       public function process_payment($order_id)
         {
             $order = wc_get_order($order_id);
 
-            if ($order && 'pending' === $order->get_status()) {
-                $klb_client_id = $this->get_option('klb_client_id');
-                $klb_encrypt_key = $this->get_option('klb_encrypt_key');
-                $klb_secret_key = $this->get_option('klb_secret_key');
-                $klb_accept_time_diff = $this->get_option('klb_accept_time_diff');
-                $klb_host = $this->get_option('klb_host');
+            $klb_client_id = $this->get_option('klb_client_id');
+            $klb_encrypt_key = $this->get_option('klb_encrypt_key');
+            $klb_secret_key = $this->get_option('klb_secret_key');
+            $klb_accept_time_diff = $this->get_option('klb_accept_time_diff');
+            $klb_host = $this->get_option('klb_host');
 
-                $client = initClient($klb_client_id, $klb_encrypt_key, $klb_secret_key, $klb_host, $klb_accept_time_diff);
+            $client = initClient($klb_client_id, $klb_encrypt_key, $klb_secret_key, $klb_host, $klb_accept_time_diff);
 
-                $tnx_ref = $order_id;
-                $desc = 'Payment for Order #' . $order_id;
-                $timeout = 3600;
-                $title = 'Payment for Order #' . $order_id;
-                $language = 'vi';
+            $tnx_ref = $order_id;
+            $desc = 'Payment for Order #' . $order_id;
+            $timeout = 3600;
+            $title = 'Payment for Order #' . $order_id;
+            $language = 'vi';
 
-                $customer_info = new CustomerInfo(
-                    $order->get_billing_first_name() . ' ' . $order->get_billing_last_name(),
-                    $order->get_billing_email(),
-                    $order->get_billing_phone(),
-                    $order->get_billing_address_1() . ' ' . $order->get_billing_address_2() . ' ' . $order->get_billing_city()
-                );
+            $customer_info = new CustomerInfo(
+                $order->get_billing_first_name() . ' ' . $order->get_billing_last_name(),
+                $order->get_billing_email(),
+                $order->get_billing_phone(),
+                $order->get_billing_address_1() . ' ' . $order->get_billing_address_2() . ' ' . $order->get_billing_city()
+            );
 
-                $success_url = $this->get_return_url($order);
-                $fail_url = $order->get_cancel_order_url();
+            $success_url = $this->get_return_url($order);
+            $fail_url = $order->get_cancel_order_url();
 
-                $request = new CreateTransactionRequest(
-                    $tnx_ref,
-                    $order->get_total(),
-                    $desc,
-                    $timeout,
-                    $title,
-                    $language,
-                    $customer_info,
-                    $success_url,
-                    $fail_url,
-                    5,
-                    ""
-                );
+            $request = new CreateTransactionRequest(
+                $tnx_ref,
+                $order->get_total(),
+                $desc,
+                $timeout,
+                $title,
+                $language,
+                $customer_info,
+                $success_url,
+                $fail_url,
+                5,
+                ""
+            );
 
-                try {
-                    $response = $client->createTransaction($request);
+            try {
+                $response = $client->createTransaction($request);
+                $order->set_transaction_id($response->getTransactionId());
+                $order->save();
 
-                    $order->add_order_note('Redirecting to KLB Pay payment page.');
-                    $order->set_transaction_id($response->getTransactionId());
-                    $order->update_status('processing', __('Waiting for payment confirmation from KLB Pay', 'klb-pay'));
-                    $order->save();
-                    $redirect_url = $response->getUrl();
-                    header("Location:$redirect_url");
-                    // wp_redirect($redirect_url);
-                    exit;
-                } catch (Exception $e) {
-                    error_log($e->getMessage());
-                    wc_add_notice(__('An error occurred while processing your payment. Please try again later.', 'klb-pay'), 'error');
-                    return;
-                }
+                $redirect_url = $response->getUrl();
+                header("Location:$redirect_url");
+//                wp_redirect($redirect_url);
+                exit();
+            } catch (Exception $e) {
+                error_log($e->getMessage());
+                wc_add_notice(__('An error occurred while processing your payment. Please try again later.', 'klb-pay'), 'error');
             }
-
             WC()->cart->empty_cart();
         }
     }
