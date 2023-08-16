@@ -32,7 +32,7 @@
 
 ## Sử Dụng
 
-Plugin sẽ tự động xử lý thanh toán của Order qua KLB Pay khi đơn hàng chuyển sang trạng thái "Pending Payment", khi thanh toán thành công thì chuyển thành trạng thái "On Hold" để bên quản lý trang xử lý order tiếp.
+Plugin sẽ tự động xử lý thanh toán của Order qua KLB Pay khi đơn hàng chuyển sang trạng thái "Pending Payment", khi thanh toán thành công thì chuyển thành trạng thái "Processing" để bên quản lý trang xử lý order tiếp.
 ![img-payment.png](readImg/img-payment.png)
 ## Gỡ Bỏ
 
