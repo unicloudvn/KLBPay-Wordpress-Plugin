@@ -121,7 +121,6 @@ function klb_pay_init_gateway_class()
             $order = wc_get_order($order_id);
 
             if ($order && 'pending' === $order->get_status()) {
-                // Tạo transaction KLB Pay tương tự như hàm process_order_before_payment
                 $klb_client_id = $this->get_option('klb_client_id');
                 $klb_encrypt_key = $this->get_option('klb_encrypt_key');
                 $klb_secret_key = $this->get_option('klb_secret_key');
@@ -165,10 +164,11 @@ function klb_pay_init_gateway_class()
 
                     $order->add_order_note('Redirecting to KLB Pay payment page.');
                     $order->set_transaction_id($response->getTransactionId());
-                    $order->update_status('pending', __('Waiting for KLB Pay payment', 'klb-pay'));
+                    $order->update_status('processing', __('Waiting for payment confirmation from KLB Pay', 'klb-pay'));
                     $order->save();
-
-                    wp_redirect($response->getUrl());
+                    $redirect_url = $response->getUrl();
+                    header("Location:$redirect_url");
+                    // wp_redirect($redirect_url);
                     exit;
                 } catch (Exception $e) {
                     error_log($e->getMessage());
@@ -196,28 +196,28 @@ function initClient($client_id, $encrypt_key, $secret_key, $host, $accept_time_d
 
 }
 
-function klb_check_transaction_on_order_complete($order_id)
-{
-    $order = wc_get_order($order_id);
-    $order_trans_id = $order->get_transaction_id($order_id);
-    if ($order && 'on-hold' !== $order->get_status()) {
-        $klb_client_id = get_option('klb_client_id');
-        $klb_encrypt_key = get_option('klb_encrypt_key');
-        $klb_secret_key = get_option('klb_secret_key');
-        $klb_accept_time_diff = get_option('klb_accept_time_diff');
-        $klb_host = get_option('klb_host');
-        $client = initClient($klb_client_id, $klb_encrypt_key, $klb_secret_key, $klb_host, $klb_accept_time_diff);
-        try {
-            $checkRequest = new QueryTransactionRequest($order_trans_id);
-            $response = $client->checkTransaction($checkRequest);
-            if ($response->getStatus() === 'Success') {
-                $order->update_status('on-hold', __('Payment successful via KLB Pay', 'klb-pay'));
-            }
-        } catch (Exception $e) {
-            error_log($e->getMessage());
-        }
-    }
-}
+// function klb_check_transaction_on_order_complete($order_id)
+// {
+//     $order = wc_get_order($order_id);
+//     $order_trans_id = $order->get_transaction_id($order_id);
+//     if ($order && 'on-hold' !== $order->get_status()) {
+//         $klb_client_id = get_option('klb_client_id');
+//         $klb_encrypt_key = get_option('klb_encrypt_key');
+//         $klb_secret_key = get_option('klb_secret_key');
+//         $klb_accept_time_diff = get_option('klb_accept_time_diff');
+//         $klb_host = get_option('klb_host');
+//         $client = initClient($klb_client_id, $klb_encrypt_key, $klb_secret_key, $klb_host, $klb_accept_time_diff);
+//         try {
+//             $checkRequest = new QueryTransactionRequest($order_trans_id);
+//             $response = $client->checkTransaction($checkRequest);
+//             if ($response->getStatus() === 'Success') {
+//                 $order->update_status('on-hold', __('Payment successful via KLB Pay', 'klb-pay'));
+//             }
+//         } catch (Exception $e) {
+//             error_log($e->getMessage());
+//         }
+//     }
+// }
 
-add_action('woocommerce_order_status_completed', 'klb_check_transaction_on_order_complete');
+// add_action('woocommerce_order_status_completed', 'klb_check_transaction_on_order_complete');
 
