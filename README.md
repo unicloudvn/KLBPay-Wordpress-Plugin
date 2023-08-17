@@ -11,7 +11,7 @@
 
 ## Cài Đặt
 
-1. Tải plugin KLB Pay từ [trang chính thức](https://github.com/unicloudvn/KLBPay-Wordpress-Plugin).
+1. Tải plugin KLB Pay từ [trang chính thức](https://github.com/unicloudvn/KLBPay-Wordpress-Plugin/tree/v1.0).
 
 ![img-download.png](readImg/img-download.png)
 
